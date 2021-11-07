@@ -12,7 +12,7 @@
 
 (def mens-medium [:partner {:uuid "7d32ad83-330e-4ccc-ba03-3bb32ac113ac"}
                   [[:shop {:slug "mens"}
-                    [[:browse {:limit 100 :sort ""
+                    [[:browse {:limit 500 :sort ""
                                :filters [{:name "M" :tag "size"}]}
                       [[:items [:availableSizes :color :displayColor
                                 :price :title
@@ -37,7 +37,6 @@
   (:body (curl/post url standard-params)))
 
 (defn -main [& _args]
-  (println "Posting search")
   (let [data (json/parse-string (post-search search-url) true)]
     (doseq [item (:items (get-in data [:data :partner :shop :browse]))]
       (println item))))
