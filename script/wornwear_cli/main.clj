@@ -5,19 +5,23 @@
             [venia.core :as v]))
 
 (def search-url "https://reware-production.yerdlesite.com/v4/graphql")
+
 (defn build-item-url
   [id color]
   (format "https://wornwear.patagonia.com/shop/mens/%s/%s" id color))
+
+(def mens-medium [:partner {:uuid "7d32ad83-330e-4ccc-ba03-3bb32ac113ac"}
+                  [[:shop {:slug "mens"}
+                    [[:browse {:limit 100 :sort ""
+                               :filters [{:name "M" :tag "size"}]}
+                      [[:items [:availableSizes :color :displayColor
+                                :price :title
+                                [:pdpLink [:path :url]]]]]]]]]])
+
 (def ww-query
   (v/graphql-query {:venia/operation {:operation/type :query
                                       :operation/name "initShop"}
-                    :venia/queries   [{:query/data  [:partner {:uuid "7d32ad83-330e-4ccc-ba03-3bb32ac113ac"}
-                                                     [[:shop {:slug "mens"}
-                                                       [[:browse {:limit 100 :sort ""
-                                                                  :filters [{:name "M" :tag "size"}]}
-                                                         [[:items [:availableSizes :color :displayColor
-                                                                   :price :title
-                                                                   [:pdpLink [:path :url]]]]]]]]]]}]}))
+                    :venia/queries   [{:query/data mens-medium}]}))
 
 (def standard-params
   {:body (json/generate-string {:query ww-query})
