@@ -16,7 +16,7 @@
                                :filters [{:name "M" :tag "size"}]}
                       [[:items [:availableSizes :color :displayColor
                                 :price :title
-                                [:pdpLink [:path :url]]]]]]]]]])
+                                [:pdpLink [:url]]]]]]]]]])
 
 (def ww-query
   (v/graphql-query {:venia/operation {:operation/type :query
